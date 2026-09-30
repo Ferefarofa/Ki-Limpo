@@ -10,7 +10,7 @@ def banco_cliente():
 
 
     cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS cliente(
+                    CREATE TABLE IF NOT EXISTS clientes(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome_cliente TEXT NOT NULL,
                     email_cliente TEXT NOT NULL,
@@ -18,8 +18,8 @@ def banco_cliente():
                     telefone_cliente TEXT NOT NULL,
                     cpf_cliente TEXT NOT NULL,
                     endereco_cliente TEXT NOT NULL,
-                    sequencia INTEGER NOT NULL,
-                    clube INTEGER NOT NULL)
+                    sequencia INTEGER,
+                    clube INTEGER)
     ''')#O clube esta em integer por possuir 2 opções sim ou nao que vao ser caracterizada entre 1 ou 2, demais outras opções estao sujeitas a tal metodo de seleção também(Integer especial)
     conexao.commit()
     conexao.close()
@@ -32,14 +32,15 @@ def banco_funcionario():
 
 
     cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS funcionario(
+                    CREATE TABLE IF NOT EXISTS funcionarios(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome_funcionario TEXT NOT NULL,
                     email_funcionario TEXT NOT NULL,
                     senha_funcionario TEXT NOT NULL,
                     telefone_funcionario TEXT NOT NULL,
                     cpf_funcionario TEXT NOT NULL,
-                    endereco_funcionario TEXT NOT NULL)
+                    trabalhos INTEGER,
+                    comissao REAL)
     ''')#
     conexao.commit()
     conexao.close()
@@ -152,6 +153,24 @@ def realizados():
                     cpf_cliente TEXT NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL
+                    )
+    ''')
+    conexao.commit()
+    conexao.close()
+
+def clube()
+    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    cursor = conexao.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+
+
+    cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS clube(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    cliente TEXT NOT NULL,
+                    cpf_cliente TEXT NOT NULL
+                    id_cliente INTEGER NOT NULL,
+                    FOREIGN KEY id_cliente REFERENCES clientes(id)  
                     )
     ''')
     conexao.commit()

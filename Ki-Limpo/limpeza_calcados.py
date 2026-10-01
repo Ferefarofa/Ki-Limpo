@@ -1,10 +1,10 @@
 import sqlite3
-conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
 cursor = conexao.cursor()
 cursor.execute("PRAGMA foreign_keys = ON")
 
 def pedido_limpeza_calcado()
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 

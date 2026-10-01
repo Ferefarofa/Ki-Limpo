@@ -1,10 +1,10 @@
 import sqlite3
-conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
 cursor = conexao.cursor()
 cursor.execute("PRAGMA foreign_keys = ON")
 
 def banco_cliente():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -26,7 +26,7 @@ def banco_cliente():
 
 
 def banco_funcionario():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -47,7 +47,7 @@ def banco_funcionario():
 
 
 def lavagens():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -72,7 +72,7 @@ def lavagens():
 
 
 def passadorias():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -95,7 +95,7 @@ def passadorias():
     conexao.close()
 
 def limpeza_calçados():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -120,7 +120,7 @@ def limpeza_calçados():
 
 
 def processos():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -140,7 +140,7 @@ def processos():
     conexao.close()
 
 def realizados():
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -151,15 +151,18 @@ def realizados():
                     servico TEXT NOT NULL,
                     id_cliente INTEGER NOT NULL,
                     cpf_cliente TEXT NOT NULL,
+                    id_fucnionário INTEGER NOT NULL,
                     data TEXT NOT NULL,
-                    horario TEXT NOT NULL
+                    horario TEXT NOT NULL,
+                    FOREIGN KEY id_cliente REFERENCES clientes(id),
+                    FOREIGN KEY id_funcionario REFERENCES funcionarios(id)
                     )
     ''')
     conexao.commit()
     conexao.close()
 
 def clube()
-    conexao = sqlite3.connect("Lavanderia/dados_lavanderia.db")
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 

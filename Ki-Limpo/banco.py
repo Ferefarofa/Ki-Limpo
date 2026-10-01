@@ -55,16 +55,16 @@ def lavagens():
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS lavagens(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    cliente TEXT NOT NULL,
+                    id_cliente INTEGER NOT NULL,
                     prioridade INTEGER NOT NULL,
                     intensidade TEXT NOT NULL,
                     peso REAL NOT NULL,
                     aroma TEXT NOT NULL,
                     descricao TEXT,
-                    coleta_entrega INTEGER NOT NULL,
+                    coleta_entrega TEXT NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL,
-                    status INTEGER NOT NULL
+                    status TEXT
                     )
     ''')# prioridade, coleta entrega, status (Integer especial)
     conexao.commit()
@@ -80,15 +80,15 @@ def passadorias():
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS passadorias(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    cliente TEXT NOT NULL,
+                    id_cliente INTEGER NOT NULL,
                     prioridade INTEGER NOT NULL,
                     material TEXT NOT NULL,
                     peso REAL NOT NULL,
                     descricao TEXT,
-                    coleta_entrega INTEGER NOT NULL,
+                    coleta_entrega TEXT NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL,
-                    status INTEGER NOT NULL
+                    status TEXT
                     )
     ''')# prioridade, coleta entrega, status (Integer especial)
     conexao.commit()
@@ -103,15 +103,15 @@ def limpeza_calçados():
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS limpeza_calcados(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    cliente TEXT NOT NULL,
+                    id_cliente INTEGER NOT NULL,
                     prioridade INTEGER NOT NULL,
                     tipo_limpeza TEXT NOT NULL,
                     pares INTEGER NOT NULL,
                     descricao TEXT,
-                    coleta_entrega INTEGER NOT NULL,
+                    coleta_entrega TEXT NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL,
-                    status INTEGER NOT NULL
+                    status TEXT
                     )
     ''')# prioridade, coleta entrega, status (Integer especial)
     conexao.commit()
@@ -129,7 +129,7 @@ def processos():
                     CREATE TABLE IF NOT EXISTS passadoria(
                     id INTEGER PRIMARY KEY,
                     pedido TEXT NOT NULL,
-                    cliente TEXT NOT NULL
+                    id_cliente INTEGER NOT NULL
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL,
                     prioridade INTEGER NOT NULL,
@@ -149,7 +149,7 @@ def realizados():
                     CREATE TABLE IF NOT EXISTS realizados(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     servico TEXT NOT NULL,
-                    cliente TEXT NOT NULL,
+                    id_cliente INTEGER NOT NULL,
                     cpf_cliente TEXT NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL

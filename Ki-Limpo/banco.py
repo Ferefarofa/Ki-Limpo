@@ -1,15 +1,17 @@
 import sqlite3
+
 conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
 cursor = conexao.cursor()
 cursor.execute("PRAGMA foreign_keys = ON")
+
 
 def banco_cliente():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute(
+        """
                     CREATE TABLE IF NOT EXISTS clientes(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome_cliente TEXT NOT NULL,
@@ -20,7 +22,8 @@ def banco_cliente():
                     endereco_cliente TEXT NOT NULL,
                     sequencia INTEGER,
                     clube INTEGER)
-    ''')#O clube esta em integer por possuir 2 opções sim ou nao que vao ser caracterizada entre 1 ou 2, demais outras opções estao sujeitas a tal metodo de seleção também(Integer especial)
+    """
+    )  # O clube esta em integer por possuir 2 opções sim ou nao que vao ser caracterizada entre 1 ou 2, demais outras opções estao sujeitas a tal metodo de seleção também(Integer especial)
     conexao.commit()
     conexao.close()
 
@@ -30,8 +33,7 @@ def banco_funcionario():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS funcionarios(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome_funcionario TEXT NOT NULL,
@@ -41,7 +43,7 @@ def banco_funcionario():
                     cpf_funcionario TEXT NOT NULL,
                     trabalhos INTEGER,
                     comissao REAL)
-    ''')#
+    """)  #
     conexao.commit()
     conexao.close()
 
@@ -51,8 +53,7 @@ def lavagens():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS lavagens(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     id_cliente INTEGER NOT NULL,
@@ -66,7 +67,7 @@ def lavagens():
                     horario TEXT NOT NULL,
                     status TEXT
                     )
-    ''')# prioridade, coleta entrega, status (Integer especial)
+    """)  # prioridade, coleta entrega, status (Integer especial)
     conexao.commit()
     conexao.close()
 
@@ -76,8 +77,7 @@ def passadorias():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS passadorias(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     id_cliente INTEGER NOT NULL,
@@ -90,17 +90,17 @@ def passadorias():
                     horario TEXT NOT NULL,
                     status TEXT
                     )
-    ''')# prioridade, coleta entrega, status (Integer especial)
+    """)  # prioridade, coleta entrega, status (Integer especial)
     conexao.commit()
     conexao.close()
+
 
 def limpeza_calçados():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS limpeza_calcados(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     id_cliente INTEGER NOT NULL,
@@ -113,10 +113,9 @@ def limpeza_calçados():
                     horario TEXT NOT NULL,
                     status TEXT
                     )
-    ''')# prioridade, coleta entrega, status (Integer especial)
+    """)  # prioridade, coleta entrega, status (Integer especial)
     conexao.commit()
     conexao.close()
-
 
 
 def processos():
@@ -124,57 +123,56 @@ def processos():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS passadoria(
                     id INTEGER PRIMARY KEY,
                     pedido TEXT NOT NULL,
-                    id_cliente INTEGER NOT NULL
+                    id_cliente INTEGER NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL,
                     prioridade INTEGER NOT NULL,
                     total TEXT NOT NULL
                     )
-    ''')# prioridade,(Integer especial)
+    """)  # prioridade,(Integer especial)
     conexao.commit()
     conexao.close()
+
 
 def realizados():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS realizados(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     servico TEXT NOT NULL,
                     id_cliente INTEGER NOT NULL,
                     cpf_cliente TEXT NOT NULL,
-                    id_fucnionário INTEGER NOT NULL,
+                    id_funcionario INTEGER NOT NULL,
                     data TEXT NOT NULL,
                     horario TEXT NOT NULL,
-                    FOREIGN KEY id_cliente REFERENCES clientes(id),
-                    FOREIGN KEY id_funcionario REFERENCES funcionarios(id)
+                    FOREIGN KEY (id_cliente) REFERENCES clientes(id),
+                    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id)
                     )
-    ''')
+    """)
     conexao.commit()
     conexao.close()
 
-def clube()
+
+def clube():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-
-    cursor.execute('''
+    cursor.execute("""
                     CREATE TABLE IF NOT EXISTS clube(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     cliente TEXT NOT NULL,
-                    cpf_cliente TEXT NOT NULL
+                    cpf_cliente TEXT NOT NULL,
                     id_cliente INTEGER NOT NULL,
-                    FOREIGN KEY id_cliente REFERENCES clientes(id)  
+                    FOREIGN KEY (id_cliente) REFERENCES clientes(id)  
                     )
-    ''')
+    """)
     conexao.commit()
     conexao.close()

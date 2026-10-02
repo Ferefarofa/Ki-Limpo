@@ -138,5 +138,4 @@ def menu_clube():
             print("Opção inválida, tente de novo.")
 
 
-if __name__ == "__main__":
-    menu_clube()
+entrar_clube()

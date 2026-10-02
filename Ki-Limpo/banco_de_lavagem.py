@@ -10,17 +10,42 @@ def cadastro_lavagem():
     cursor.execute("PRAGMA foreign_keys = ON")
 
     id_cliente = input("Insira o ID do cliente: ")
-    prioridade = input("Insira a prioridade da lavagem: ")
+    urgencia = input("Insira a urgencia da lavagem: ")
     intensidade = input("Insira a intensidade da lavagem: ")
-    peso = input("Insira o peso das roupas em kg: ")
-    aroma = input("Insira o aroma escolhido: ")
-    descricao = input("Insira uma descrição (opcional): ")
+    roupa = input("Insira qual a roupa a ser lavada: ")
+    pecas = input("Insira as peças de roupa: ")
+    fragrancia = input("Insira a fragrancia escolhida: ")
+    observacao = input("Insira uma observação (opcional): ")
     coleta_entrega = input("Haverá coleta ou entrega: ")
     data = input("Insira a data da lavagem: ")
     horario = input("Insira o horário da lavagem: ")
    
-    cursor.execute(f'''INSERT INTO lavagens(id_cliente,prioridade,intensidade,peso,aroma,descricao,coleta_entrega,data,horario)
-                    VALUES('{id_cliente}','{prioridade}','{intensidade}','{peso}','{aroma}','{descricao}','{coleta_entrega}','{data}','{horario}','{status}')
+    cursor.execute(f'''
+                    INSERT INTO pedidos(
+                    id_cliente,
+                    urgencia,
+                    roupa,
+                    intensidade,
+                    quantidade,
+                    fragrancia,
+                    observacao,
+                    atendimento,
+                    data,
+                    horario,
+                    status)
+                    VALUES(
+                    '{id_cliente}',
+                    '{urgencia}',
+                    '{roupa}',
+                    '{intensidade}',
+                    {quantidade},
+                    '{fragrancia}',
+                    '{observacao}',
+                    '{coleta_entrega}',
+                    '{data}',
+                    '{horario}',
+                    '{status}'
+                    )
     ''')
     
     conexao.commit()

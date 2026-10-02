@@ -27,3 +27,6 @@ def pedido_limpeza_calcado()
 
     conexao.commit()
     conexao.close()
+
+
+    

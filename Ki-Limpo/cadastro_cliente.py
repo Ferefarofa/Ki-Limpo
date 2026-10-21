@@ -14,7 +14,7 @@ def cadastro_cliente():
 
     nome_cliente = input("Insira o nome do cliente: ")
     email_cliente = input("Insira o email do cliente: ")
-    telefone_cliente = intput("Insira o telefone do cliente: ")
+    telefone_cliente = input("Insira o telefone do cliente: ")
     cpf_cliente = input("Insira o cpf do cliente: ")
     endereco_cliente = input("Insira o endereço do cliente: ")
     senha_cliente = input("Insira uma senha com no mínimo 6 digitos: ")
@@ -25,7 +25,7 @@ def cadastro_cliente():
     conexao.commit()
     conexao.close()
 
-
+cadastro_cliente()
 
 
     

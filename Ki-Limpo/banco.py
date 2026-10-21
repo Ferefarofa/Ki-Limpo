@@ -26,7 +26,7 @@ def banco_cliente():
     )  # O clube esta em integer por possuir 2 opções sim ou nao que vao ser caracterizada entre 1 ou 2, demais outras opções estao sujeitas a tal metodo de seleção também(Integer especial)
     conexao.commit()
     conexao.close()
-
+banco_cliente()
 
 def banco_funcionario():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
@@ -98,7 +98,6 @@ def clube():
     cursor.execute("""
                     CREATE TABLE IF NOT EXISTS clube(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    cliente TEXT NOT NULL,
                     cpf_cliente TEXT NOT NULL,
                     id_cliente INTEGER NOT NULL,
                     FOREIGN KEY (id_cliente) REFERENCES clientes(id)  

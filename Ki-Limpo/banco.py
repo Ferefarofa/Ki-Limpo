@@ -135,3 +135,63 @@ def pedidos():
                 )
 
     ''')#o atendimento é coleta ou entrega.
+
+def pagamento_clube():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+
+    cursor.execute("""
+                   CREATE TABLE IF NOT EXISTS planos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT NOT NULL,
+            desconto REAL NOT NULL,
+        )
+    """)
+    conexao.commit()
+    conexao.close()
+
+def pagamento_gerais():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+
+    cursor.execute('''
+            CREATE TABLE IF NOT EXISTS pagamentos(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cliente INTEGER NOT NULL,
+            id_pedido TEXT NOT NULL,
+            forma_pagamento TEXT NOT NULL,
+            data_pagamento TEXT NOT NULL
+            FOREIGN KEY (id_cliente) REFERENCES clientes(id)
+        )
+    ''')
+    conexao.commit()
+    conexao.close()
+
+
+
+def tabela_pagamento():
+    with conectar() as conexao:
+        conexao.execute("""
+            CREATE TABLE IF NOT EXISTS planos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nome TEXT NOT NULL,
+                preco REAL NOT NULL,
+                desconto REAL NOT NULL
+            )
+        """)
+
+        conexao.execute("""
+            CREATE TABLE IF NOT EXISTS assinaturas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_cliente INTEGER NOT NULL,
+                id_plano INTEGER NOT NULL,
+                forma_pagamento TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pendente',
+                data_criacao TEXT NOT NULL,
+                FOREIGN KEY (id_plano) REFERENCES planos(id)
+            )
+        """)
+
+ 

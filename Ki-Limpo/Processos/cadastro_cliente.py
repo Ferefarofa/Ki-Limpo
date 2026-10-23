@@ -3,6 +3,10 @@ conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
 cursor = conexao.cursor()
 cursor.execute("PRAGMA foreign_keys = ON")
 
+from ./Ki-Limpo/banco import banco_cliente
+
+banco_cliente()
+
 
 def cadastro_cliente():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
@@ -26,6 +30,5 @@ def cadastro_cliente():
     conexao.close()
 
 cadastro_cliente()
-
 
     

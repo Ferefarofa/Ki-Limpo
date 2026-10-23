@@ -4,7 +4,7 @@ cursor = conexao.cursor()
 
 
 
-def tela_login():
+def login_cliente():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
@@ -19,27 +19,15 @@ def tela_login():
         senha = input("Senha: ")
 
         cursor.execute(f'''
-        SELECT FROM clientes WHERE email_cliente = '{email}'
+        SELECT * FROM clientes WHERE email_cliente = '{email}'
         AND senha_cliente = '{senha}'
         ''')
 
         cliente = cursor.fetchone()
+    
 
 
+    if opcao == 1:
+        return cliente
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-tela_login()

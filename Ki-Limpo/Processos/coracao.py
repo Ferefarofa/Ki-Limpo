@@ -47,6 +47,23 @@ def inicio():
 \n1 - Lavar e secar\
 \n2 - Lavar, secar e passar\
 \n3 - Lavagem a seco\
+\n4 - Sair\
 \n====================================================================")
 
 inicio()
+
+def menu():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+
+    opcao = int(input("digite a sua opção: "))
+
+    if opcao == 1:
+        print("Opção selecionada: lavar e secar")
+    elif opcao == 2:
+        print("Opção selecionada: lavar, secar e passar")
+    elif opcao == 3:
+        print("Opção selecionada: lavagem a seco")
+    else:
+        print("Saindo...")
+menu()

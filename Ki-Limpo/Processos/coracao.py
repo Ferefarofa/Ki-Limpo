@@ -17,28 +17,36 @@ def inicio():
 \n2 - SOU FUNCIONÁRIO\
 \n====================================================================")
     tipo = int(input("Escolha: "))
-    return tipo
-
-tipo = inicio()
-if tipo == 1:
-    print("\
+    
+    if tipo == 1:
+        print("\
 \n====================================================================\
 \nOLÁ CLIENTE, SELECIONA UMA OPÇÃO: \
 \n1 - FAZER LOGIN\
 \n2 - CADASTRAR\
 \n====================================================================")
-    opcao = int(input("Escolha: "))
-    if opcao == 1:
-        cliente = login_cliente()
-    elif opcao == 2:
-        cadastro_cliente()
-
-elif opcao == 2:
-    print("oi")
-
-print(f"\
+        opcao = int(input("Escolha: "))
+        if opcao == 1:
+            cliente = login_cliente()
+        elif opcao == 2:
+            cadastro_cliente()
+            print("\
 \n====================================================================\
-\nBEM VINDO {cliente[1]}\
+\nVocê foi encaminhado para o login...")
+            cliente = login_cliente()
+
+    elif opcao == 2:
+        print("oi")
+
+    print(f"\
+\n====================================================================\
+\nBEM VINDO(A) {cliente[1]}\
+\n====================================================================")
+    print("====================================================================\
+\nEscolha a opção de serviço:\
+\n1 - Lavar e secar\
+\n2 - Lavar, secar e passar\
+\n3 - Lavagem a seco\
 \n====================================================================")
 
-
+inicio()

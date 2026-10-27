@@ -8,26 +8,16 @@ def login_cliente():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
-    print("====================================================================\
-    \n Bem-Vindo ao Ki-Limpo SYSTEM\n Escolha a opção de login:\
-    \n 1 - Login cliente\n 2 - Login funcionário\n\
-====================================================================")
+    email = input("E-mail: ")
+    senha = input("Senha: ")
 
-    opcao = int(input("Insira a opção: "))
-    if opcao == 1:
-        email = input("E-mail: ")
-        senha = input("Senha: ")
+    cursor.execute(f'''
+    SELECT * FROM clientes WHERE email_cliente = '{email}'
+    AND senha_cliente = '{senha}'
+    ''')
 
-        cursor.execute(f'''
-        SELECT * FROM clientes WHERE email_cliente = '{email}'
-        AND senha_cliente = '{senha}'
-        ''')
-
-        cliente = cursor.fetchone()
+    cliente = cursor.fetchone()
     
-
-
-    if opcao == 1:
-        return cliente
+    return cliente
 
 

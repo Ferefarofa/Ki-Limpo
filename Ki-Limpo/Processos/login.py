@@ -19,5 +19,23 @@ def login_cliente():
     cliente = cursor.fetchone()
     
     return cliente
+    conexao.close()
 
+def login_funcionario():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+
+    email = input("E-mail: ")
+    senha = input("Senha: ")
+
+    cursor.execute(f'''
+    SELECT * FROM funcionarios WHERE email_funcionario = '{email}'
+    AND senha_funcionario = '{senha}'
+    ''')
+
+    funcionario = cursor.fetchone()
+    print(funcionario)
+    
+    return funcionario
+    conexao.close()
 

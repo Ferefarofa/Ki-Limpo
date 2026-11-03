@@ -63,21 +63,23 @@ def inicio():
 \n====================================================================")
     
 
+inicio()
 
-print("====================================================================\
+
+
+def menu():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+
+
+    print("\
+\n====================================================================\
 \nEscolha a opção de serviço:\
 \n1 - Lavar e secar\
 \n2 - Lavar, secar e passar\
 \n3 - Lavagem a seco\
 \n4 - Sair\
 \n====================================================================")
-
-inicio()
-
-def menu():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
-
     opcao_menu = int(input("digite a sua opção: "))
 
     if opcao_menu == 1:
@@ -88,6 +90,7 @@ def menu():
         print("Opção selecionada: lavagem a seco")
     else:
         print("Saindo...")
+    return opcao_menu
 menu()
 
 def roupa_e_quantidade():
@@ -132,9 +135,21 @@ def roupa_e_quantidade():
 def intensidade():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
-
-    intensidade = int(input("Digite a intensidade da lavagem: "))
-    print(f"Intensidade da lavagem: {intensidade}")
+    print(f"\
+\n====================================================================\
+\nEscolha a intensidade da lavagem:\
+\n1 - Sujeira Simples(Poeira, suor, manchas de uso leves)\
+\n2 - Bem Sujo(Manchas, resíduos, etc...)\
+\n3 - Extremamente Sujo(Cobertas de terra, encardidas, etc...)\
+\n====================================================================")
+    opcao = int(input("Digite a intensidade da lavagem: "))
+    if opcao == 1:
+        intensidade = "Sujeira Simples"
+    elif opcao == 2:
+        intensidade = "Bem Sujo"
+    elif opcao == 3:
+        intensidade = "Extremamente Sujo"
+    print(f"Intensidade da lavagem: '{intensidade}'")
 intensidade()
 
 def preferencia_produtos():
@@ -155,17 +170,17 @@ def preferencia_produtos():
 \n====================================================================")
         opcao = int(input("digite a sua opção: "))
 
-        if opcao_detergente == 1:
+        if opcao == 1:
             print("Opção selecionada: Sabão regular (en pó)")
-        elif opcao_detergente == 2:
+        elif opcao == 2:
             print("Opção selecionada: Sabão líquido")
-        elif opcao_detergente == 3:
+        elif opcao == 3:
             print("Opção selecionada: Detergente concentrado")
-        elif opcao_detergente == 4:
+        elif opcao == 4:
             print("Opção selecionada: Sabão neutro para roupas delicadas")
-        elif opcao_detergente == 5:
+        elif opcao == 5:
             print("Opção selecionada: Sabão específico para roupas infantis")
-        elif opcao_detergente == 6:
+        elif opcao == 6:
             print("Opção selecionada: Detergente para roupas brancas ou coloridas")
         else:
             break
@@ -261,7 +276,7 @@ def funcionario():
 
     funcionario_op = funcionario[1] 
     print(f"Funcionário: {funcionario}")
-funcionario()
+
 
 
 def urgencia():
@@ -296,9 +311,87 @@ def total():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
-pecas = []
+    pecas = []
 
 
 
+def total():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
 
-cadastro_cliente()
+    precos = {
+        1: ("Camiseta", 8.00),
+        2: ("Camisa social", 12.00),
+        3: ("Calça", 13.00),
+        4: ("Vestido", 20.00),
+        5: ("Toalha de banho", 9.00),
+        6: ("Lençol de casal", 16.50),
+        7: ("Cobertor", 30.00),
+        8: ("Edredom", 40.00),
+        9: ("Cortina", 35.00),
+    }
+
+
+    multiplicadores = {
+        1: 1.0,  #lavar e secar 
+        2: 1.5,   #lavar, secar e passar
+        3: 2.2   #lavagem a seco
+    }
+     
+    print("\nESCOLHA O SERVIÇO")
+    print("1 - Lavar e secar")
+    print("2 - Lavar, secar e passar")
+    print("3 - Lavagem a seco")
+
+    servico = int(input("Escolha: "))
+
+    if servico not in multiplicadores:
+        print("Serviço inválido!")
+        return 
+
+    multiplicador = multiplicadores[servico]
+
+    total = 0.0
+    pecas = []
+
+    
+    while True:
+    print("\nESCOLHA A PEÇA")
+    print("1 - Camiseta")
+    print("2 - Camisa social")
+    print("3 - Calça")
+    print("4 - Vestido")
+    print("5 - Toalha de banho")
+    print("6 - Lençol de casal")
+    print("7 - Cobertor")
+    print("8 - Edredom")
+    print("9 - Cortina")
+    print("10 - Finalizar")
+
+    opcao_roupa = int(input("Escolha: "))
+
+    if opcao_roupa == 10:
+        break
+
+    if opcao_roupa not in precos:
+        print("Opção inválida!")
+        continue
+
+    nome, preco = precos[opcao_roupa]
+
+    valor = preco * multiplicador
+
+    pecas.append(nome)
+    valor_total += valor
+
+    print("Peça adicionada!")
+    print(f"Valor: R$ {valor:}")
+
+print("\nRESUMO DO PEDIDO")
+
+for peca in pecas:
+    print(peca)
+
+print(f"Total: R$ {valor_total}")
+
+

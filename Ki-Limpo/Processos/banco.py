@@ -10,8 +10,7 @@ def banco_cliente():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-    cursor.execute(
-        """
+    cursor.execute('''
                     CREATE TABLE IF NOT EXISTS clientes(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome_cliente TEXT NOT NULL,
@@ -22,7 +21,7 @@ def banco_cliente():
                     endereco_cliente TEXT NOT NULL,
                     sequencia INTEGER,
                     clube INTEGER)
-    """
+    '''
     )  # O clube esta em integer por possuir 2 opções sim ou nao que vao ser caracterizada entre 1 ou 2, demais outras opções estao sujeitas a tal metodo de seleção também(Integer especial)
     conexao.commit()
     conexao.close()
@@ -33,7 +32,7 @@ def banco_funcionario():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-    cursor.execute("""
+    cursor.execute('''
                     CREATE TABLE IF NOT EXISTS funcionarios(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nome_funcionario TEXT NOT NULL,
@@ -43,7 +42,7 @@ def banco_funcionario():
                     cpf_funcionario TEXT NOT NULL UNIQUE,
                     trabalhos INTEGER,
                     comissao REAL)
-    """)  
+    ''')  
     conexao.commit()
     conexao.close()
 
@@ -54,14 +53,14 @@ def clube():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-    cursor.execute("""
+    cursor.execute('''
                     CREATE TABLE IF NOT EXISTS clube(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     cpf_cliente TEXT NOT NULL,
                     id_cliente INTEGER NOT NULL,
                     FOREIGN KEY (id_cliente) REFERENCES clientes(id)  
                     )
-    """)
+    ''')
     conexao.commit()
     conexao.close()
 
@@ -87,9 +86,9 @@ def pedidos():
                 urgencia TEXT,
                 total TEXT NOT NULL,
                 observacao TEXT,
-                status TEXT,    
-                horario TEXT NOT NULL,
-                data TEXT NOT NULL
+                status TEXT DEFAULT 'pendente',    
+                horario TEXT DEFAULT 'agora',
+                data TEXT DEFAULT 'hoje'
                 )
 
     ''')#o atendimento é coleta ou entrega.
@@ -99,13 +98,13 @@ def pagamento_clube():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-    cursor.execute("""
-                   CREATE TABLE IF NOT EXISTS planos (
+    cursor.execute('''
+            CREATE TABLE IF NOT EXISTS planos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT NOT NULL,
             desconto REAL NOT NULL,
         )
-    """)
+    ''')
     conexao.commit()
     conexao.close()
 
@@ -131,16 +130,16 @@ def pagamento_gerais():
 
 def tabela_pagamento():
     with conectar() as conexao:
-        conexao.execute("""
+        conexao.execute('''
             CREATE TABLE IF NOT EXISTS planos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL,
                 preco REAL NOT NULL,
                 desconto REAL NOT NULL
             )
-        """)
+        ''')
 
-        conexao.execute("""
+        conexao.execute('''
             CREATE TABLE IF NOT EXISTS assinaturas (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_cliente INTEGER NOT NULL,
@@ -150,6 +149,6 @@ def tabela_pagamento():
                 data_criacao TEXT NOT NULL,
                 FOREIGN KEY (id_plano) REFERENCES planos(id)
             )
-        """)
+        ''')
 
  

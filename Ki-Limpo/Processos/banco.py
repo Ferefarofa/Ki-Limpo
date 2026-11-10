@@ -74,19 +74,19 @@ def pedidos():
     cursor.execute('''
                 CREATE TABLE IF NOT EXISTS pedidos(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_cliente INTEGER PRIMARY KEY,
+                id_cliente INTEGER NOT NULL,
                 servico TEXT NOT NULL,
-                roupa TEXT,
-                quantidade INTEGER NOT NULL,
+                roupa TEXT NOT NULL,
+                quantidade TEXT NOT NULL,
                 intensidade TEXT,
                 preferencia_produtos TEXT,
                 fragrancia TEXT NOT NULL,
                 funcionario TEXT,
                 atendimento TEXT NOT NULL,
-                urgencia TEXT,
-                total TEXT NOT NULL,
+                urgencia TEXT NOT NULL,
+                total REAL NOT NULL,
                 observacao TEXT,
-                status TEXT DEFAULT 'pendente',    
+                status TEXT DEFAULT 'penendente',    
                 horario TEXT DEFAULT 'agora',
                 data TEXT DEFAULT 'hoje'
                 )

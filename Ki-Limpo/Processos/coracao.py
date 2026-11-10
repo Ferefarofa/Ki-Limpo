@@ -5,9 +5,9 @@ cursor = conexao.cursor()
 
 
 from login import login_cliente, login_funcionario
-from cadastros import cadastrar_cliente, cadastrar_funcionario
-
-
+from cadastros import cadastrar_cliente, cadastrar_funcionario, 
+from banco import banco_cliente, banco_funcionario,pedidos
+pedidos()
 def inicio():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
@@ -75,6 +75,7 @@ def servico():
 \n====================================================================")
     opcao_menu = int(input("digite a sua opção: "))
 
+    servico = "Saindo"
     if opcao_menu == 1:
         print("Opção selecionada: lavar e secar")
         servico = "lavar e secar"
@@ -90,47 +91,42 @@ def servico():
 
 
 def roupa_e_quantidade():
-    roupa = []
-    quantidades = []
-    while True:
+    print(f"\nEscolha as opções equivalentes às suas peças:")
+    print("\n1 - Vestido")
+    print("2 - Peças jeans (vestido, jaqueta, calça, etc)")
+    print("3 - Camisas")
+    print("4 - Camisetas")
+    print("5 - Moletom (calças, casacos, etc)")
+    print("6 - Peças de baixo")
+    print("====================================================================")
 
-        print(f"\
-\nEscolha as opções equivalentes as suas peças:\
-\n1 - Vestido\
-\n2 - Peças jeans (vestido, jaqueta, calça, etc)\
-\n3 - Camisas\
-\n4 - Camisetas\
-\n5 - Moletom (calças, casacos, etc)\
-\n6 - Peças de baixo\
-\n7 - Finalizar\
-\n====================================================================")
+    opcao_roupa = int(input("Digite a sua opção: "))
 
-        opcao_roupa = int(input("digite a sua opção: "))
+    # Dicionário para mapear as opções
+    opcoes_roupa = {
+        1: "Vestido",
+        2: "Peças jeans",
+        3: "Camisas",
+        4: "Camisetas",
+        5: "Moletom",
+        6: "Peças de baixo"
+    }
 
-        if opcao_roupa == 1:
-            print("Opção selecionada: Vestido")
-        elif opcao_roupa == 2:
-            print("Opção selecionada: Peças jeans")
-        elif opcao_roupa == 3:
-            print("Opção selecionada: Camisas")
-        elif opcao_roupa == 4:
-            print("Opção selecionada: Camisetas")
-        elif opcao_roupa == 5:
-            print("Opção selecionada: Moletom")
-        elif opcao_roupa == 6:
-            print("Opção selecionada: Peças de baixo")
-        else:
-            break
+    # Verificar se a opção é válida
+    if opcao_roupa in opcoes_roupa:
+        roupa = opcoes_roupa[opcao_roupa]
+        print(f"Opção selecionada: {roupa}")
+    else:
+        print("Opção inválida!")
+        return None, None
 
-        quantidade = int(input("Digite a quantidade de peças: "))
-        if quantidade > 0:
-            roupa.append(opcao_roupa)
-            quantidades.append(quantidade)
-            print(f"Quantidade de peças: {quantidade}")
-        else:
-            print("Quantidade inválida!")
+    # Solicitar a quantidade
+    quantidade = int(input("Digite a quantidade de peças: "))
+    if quantidade <= 0:
+        print("Quantidade inválida!")
+        return None, None
 
-    return roupa, quantidades
+    return roupa, quantidade, opcao_roupa
 
 
 def intensidade():
@@ -160,6 +156,10 @@ def preferencia_produtos():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
+    tipo_sabao = "Não informado"
+    amaciante = "Não informado"
+    produto_auxiliar = "Não informado"
+
     print(f"\
 \nEscolha as opções de detergentes e sabões:\
 \n1 - Sabão regular (em pó)\
@@ -173,7 +173,7 @@ def preferencia_produtos():
     opcao = int(input("digite a sua opção: "))
 
     if opcao == 1:
-        print("Opção selecionada: Sabão regular (en pó)")
+        print("Opção selecionada: Sabão regular (em pó)")
         tipo_sabao = "Sabão regular (em pó)"
     elif opcao == 2:
         print("Opção selecionada: Sabão líquido")
@@ -243,6 +243,7 @@ def preferencia_produtos():
 
 def fragrancia():
     print("\n====================================================================")
+    fragrancia = "Sem fragrância"
 
     print(f"\
 \nEscolha as opções de fragrancia:\
@@ -343,7 +344,7 @@ def urgencia():
     return taxa, urgencia  
 
 
-def total(servico, roupa, quantidades, taxa):
+def total(servico, opcao_roupa, quantidade, taxa):
     precos = {
         1: ("Vestido", 20.00),
         2: ("Peças jeans", 15.00),
@@ -365,18 +366,18 @@ def total(servico, roupa, quantidades, taxa):
     print("\n====================================================================")
     print("RESUMO DO PEDIDO")
 
-    for i in range(len(roupa)):
-        nome, preco = precos[roupa[i]]
-        valor = preco * quantidades[i] * multiplicador
-        valor_total += valor
-        print(f"{nome} - Quantidade: {quantidades[i]}")
-        print(f"Valor: R$ {valor}")
+    nome, preco = precos[opcao_roupa]
+    valor = preco * quantidade * multiplicador
+    valor_total = valor
+    print(f"{nome} - Quantidade: {quantidade}")
+    print(f"Valor: R$ {valor}")
 
     print(f"Subtotal: R$ {valor_total}")
     valor_total = valor_total * taxa
     print(f"Total: R$ {valor_total}")
     print("====================================================================")
-    return valor_total
+    roupa = nome
+    return valor_total, roupa
 
 def observacao():
     observacao = input("Digite alguma observação sobre o pedido (opcional): ")
@@ -384,18 +385,16 @@ def observacao():
 
 
 cliente = inicio()
-servico = servico()
-roupa, quantidades = roupa_e_quantidade()
+print(cliente)
+servico_escolhido = servico()
+roupa, quantidade, opcao_roupa = roupa_e_quantidade()
 intensidade = intensidade()
-preferencia_produtos = preferencia_produtos()
-fragrancia = fragrancia()
-atendimento = atendimento()
+selecao_sabao, amaciante, produto_auxiliar = preferencia_produtos()
+fragrancia_escolhida = fragrancia()
+atendimento_escolhido = atendimento()
 taxa_urgencia, descricao_urgencia = urgencia()
-total_pedido = total(servico, roupa, quantidades, taxa_urgencia)
+total_pedido, roupa = total(servico_escolhido, opcao_roupa, quantidade, taxa_urgencia)
 observacao = observacao()
-
-
-
 
 
 def pedidos_realizados():
@@ -403,7 +402,7 @@ def pedidos_realizados():
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
 
-    cursor.execute(f'''
+    cursor.execute('''
                 INSERT INTO pedidos(
                 id_cliente,
                 servico,
@@ -415,25 +414,24 @@ def pedidos_realizados():
                 atendimento,
                 urgencia,
                 total,
-                observacao,
-                status,
-                horario,
-                data
+                observacao
                 )
-                VALUES ({cliente[0]},
-                '{servico}',
-                '{roupa}',
-                {quantidades},
-                '{intensidade}',
-                '{preferencia_produtos}',
-                '{fragrancia}',
-                '{funcionario}',
-                'coleta',
-                '{urgencia}',
-                {total},
-                'pendente',   
-    
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                cliente[0],
+                servico_escolhido,
+                roupa,
+                quantidade,
+                intensidade,
+                preferencia_produtos_text,
+                fragrancia_escolhida,
+                atendimento_escolhido,
+                descricao_urgencia,
+                total_pedido,
+                observacao
+            ))
 
-    ''')
+    conexao.commit()
+    conexao.close()
 
-
+pedidos_realizados()

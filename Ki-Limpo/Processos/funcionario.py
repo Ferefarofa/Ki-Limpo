@@ -13,7 +13,8 @@ def visualizar_pedidos():
 
     pedidos = cursor.fetchall()
 
-    if pedidos:
+    if not pedidos:
+    print("\nNenhum pedido encontrado.")
         print("\nNenhum pedido encontrado.")
     else:
         for pedido in pedidos:
@@ -35,14 +36,16 @@ def visualizar_pedidos():
 
 def menu_funcionario():
     while True:
-        print("""
-        ==============================
-              ÁREA DO FUNCIONÁRIO
-        ==============================
-        1 - Visualizar pedidos
-        2 - Sair
-        ==============================
-        """)
+        print("\
+        ====================================================================\
+              ÁREA DO FUNCIONÁRIO\
+        ====================================================================\
+        1 - Visualizar pedidos\
+        2 - Aceitar pedido\
+        3 - Recusar pedido\
+        4 - Sair\
+        ====================================================================\
+        ")
 
         opcao = input("Escolha uma opção: ")
 
@@ -50,13 +53,32 @@ def menu_funcionario():
             visualizar_pedidos()
 
         elif opcao == "2":
+            aceitar_pedido()
+
+        elif opcao == "3":
+            recusar_pedido()
+
+        elif opcao == "4":
             print("Saindo da área do funcionário...")
             break
 
         else:
             print("Opção inválida!")
 
-def recusar():
+def aceitar_pedido():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+
+    id_cliente = input("Digite o ID do cliente para aceitar o pedido: ")
+
+    cursor.execute("SELECT * FROM pedidos WHERE id_cliente = ?", (id_cliente,))
+    pedido = cursor.fetchone()
+
+    cursor.execute("UPDATE pedidos SET status = 'aceito' WHERE id_cliente = ?", (id_cliente,))
+
+    conexao.close()
+
+def recusar_pedido():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
@@ -65,14 +87,11 @@ def recusar():
     cursor.execute("SELECT * FROM pedidos WHERE id_cliente = ?", (id_cliente,))
     pedido = cursor.fetchone()
 
-    if pedido:
-        cursor.execute("DELETE FROM pedidos WHERE id_cliente = ?", (id_cliente,))
-        conexao.commit()
-        print(f"Pedido do cliente {id_cliente} recusado com sucesso.")
-    else:
-        print(f"Nenhum pedido encontrado para o cliente {id_cliente}.")
+    cursor.execute("UPDATE pedidos SET status = 'recusado' WHERE id_cliente = ?", (id_cliente,))
 
-    
+
     conexao.close()
 
+
+menu_funcionario()
 

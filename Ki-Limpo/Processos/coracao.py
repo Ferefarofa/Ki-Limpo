@@ -5,7 +5,7 @@ cursor = conexao.cursor()
 
 
 from login import login_cliente, login_funcionario
-from cadastros import cadastrar_cliente, cadastrar_funcionario, 
+from cadastros import cadastrar_cliente, cadastrar_funcionario
 from banco import banco_cliente, banco_funcionario,pedidos
 pedidos()
 def inicio():
@@ -390,6 +390,7 @@ servico_escolhido = servico()
 roupa, quantidade, opcao_roupa = roupa_e_quantidade()
 intensidade = intensidade()
 selecao_sabao, amaciante, produto_auxiliar = preferencia_produtos()
+preferencias_produtos = f"{selecao_sabao}, {amaciante}, {produto_auxiliar}"
 fragrancia_escolhida = fragrancia()
 atendimento_escolhido = atendimento()
 taxa_urgencia, descricao_urgencia = urgencia()
@@ -423,7 +424,7 @@ def pedidos_realizados():
                 roupa,
                 quantidade,
                 intensidade,
-                preferencia_produtos_text,
+                preferencias_produtos,
                 fragrancia_escolhida,
                 atendimento_escolhido,
                 descricao_urgencia,

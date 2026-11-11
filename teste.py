@@ -8,3 +8,4 @@ def recusar():
     pedido = cursor.fetchone()
 
     cursor.execute("UPDATE pedidos SET status = 'recusado' WHERE id_cliente = ?", (id_cliente,))
+

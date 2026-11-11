@@ -88,7 +88,8 @@ def pedidos():
                 observacao TEXT,
                 status TEXT DEFAULT 'penendente',    
                 horario TEXT DEFAULT 'agora',
-                data TEXT DEFAULT 'hoje'
+                data TEXT DEFAULT 'hoje',
+                FOREIGN KEY (id_cliente) REFERENCES clientes(id)
                 )
 
     ''')#o atendimento é coleta ou entrega.

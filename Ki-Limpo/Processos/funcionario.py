@@ -87,11 +87,23 @@ def recusar_pedido():
     cursor.execute("SELECT * FROM pedidos WHERE id_cliente = ?", (id_cliente,))
     pedido = cursor.fetchone()
 
-    cursor.execute("UPDATE pedidos SET status = 'recusado' WHERE id_cliente = ?", (id_cliente,))
+    
+    if pedido:
+        observacao = input("Digite o motivo da recusa do pedido: ")
+        cursor.execute("UPDATE pedidos SET status = 'recusado', observacao = ? WHERE id_cliente = ?", (observacao, id_cliente))
+        conexao.commit()
+
+        print(f"Pedido do cliente {id_cliente} recusado com sucesso.")
+
+    else:
+    print(f"Pedido do cliente {id_cliente} não encontrado.")
+
 
 
     conexao.close()
 
 
 menu_funcionario()
+
+
 

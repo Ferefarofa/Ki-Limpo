@@ -27,17 +27,16 @@ def cliente_menu():
     \n====================================================================")
     return cliente
 
-
 def servico():
 
     print("\
-\n====================================================================\
-\nEscolha a opção de serviço:\
-\n1 - Lavar e secar(Valor normal)\
-\n2 - Lavar, secar e passar(Valor 1.5x do valor normal)\
-\n3 - Lavagem a seco(Valor 2x do valor normal)\
-\n4 - Sair\
-\n====================================================================")
+    \n====================================================================\
+    \nEscolha a opção de serviço:\
+    \n1 - Lavar e secar(Valor normal)\
+    \n2 - Lavar, secar e passar(Valor 1.5x do valor normal)\
+    \n3 - Lavagem a seco(Valor 2x do valor normal)\
+    \n4 - Sair\
+    \n====================================================================")
     opcao_menu = int(input("digite a sua opção: "))
 
     servico = "Saindo"
@@ -53,7 +52,6 @@ def servico():
     else:
         print("Saindo...")
     return servico
-
 
 def roupa_e_quantidade():
     print(f"\nEscolha as opções equivalentes às suas peças:")
@@ -93,17 +91,16 @@ def roupa_e_quantidade():
 
     return roupa, quantidade, opcao_roupa
 
-
 def intensidade():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     print(f"\
-\n====================================================================\
-\nEscolha a intensidade da lavagem:\
-\n1 - Sujeira Simples(Poeira, suor, manchas de uso leves)\
-\n2 - Bem Sujo(Manchas, resíduos, etc...)\
-\n3 - Extremamente Sujo(Cobertas de terra, encardidas, etc...)\
-\n====================================================================")
+    \n====================================================================\
+    \nEscolha a intensidade da lavagem:\
+    \n1 - Sujeira Simples(Poeira, suor, manchas de uso leves)\
+    \n2 - Bem Sujo(Manchas, resíduos, etc...)\
+    \n3 - Extremamente Sujo(Cobertas de terra, encardidas, etc...)\
+    \n====================================================================")
     opcao = int(input("Digite a intensidade da lavagem: "))
     if opcao == 1:
         intensidade = "Sujeira Simples"
@@ -116,7 +113,6 @@ def intensidade():
     print(f"Intensidade da lavagem: '{intensidade}'")
     return intensidade
 
-
 def preferencia_produtos():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
@@ -126,15 +122,15 @@ def preferencia_produtos():
     produto_auxiliar = "Não informado"
 
     print(f"\
-\nEscolha as opções de detergentes e sabões:\
-\n1 - Sabão regular (em pó)\
-\n2 - Sabão líquido\
-\n3 - Detergente concentrado\
-\n4 - Sabão neutro para roupas delicadas\
-\n5 - Sabão específico para roupas infantis\
-\n6 - Detergente para roupas brancas ou coloridas\
-\n7 - Sair\
-\n====================================================================")
+    \nEscolha as opções de detergentes e sabões:\
+    \n1 - Sabão regular (em pó)\
+    \n2 - Sabão líquido\
+    \n3 - Detergente concentrado\
+    \n4 - Sabão neutro para roupas delicadas\
+    \n5 - Sabão específico para roupas infantis\
+    \n6 - Detergente para roupas brancas ou coloridas\
+    \n7 - Sair\
+    \n====================================================================")
     opcao = int(input("digite a sua opção: "))
 
     if opcao == 1:
@@ -160,12 +156,12 @@ def preferencia_produtos():
     print("\n====================================================================")
 
     print("\
-\nEscolha as opções de Amaciantes:\
-\n1 - Amaciante convencional\
-\n2 - Amaciante concentrado\
-\n3 - Amaciante hipoalergênico ou sem perfume\
-\n4 - Sair\
-\n====================================================================")
+    \nEscolha as opções de Amaciantes:\
+    \n1 - Amaciante convencional\
+    \n2 - Amaciante concentrado\
+    \n3 - Amaciante hipoalergênico ou sem perfume\
+    \n4 - Sair\
+    \n====================================================================")
 
     opcao_amaciante = int(input("digite a sua opção: "))
 
@@ -183,12 +179,12 @@ def preferencia_produtos():
     print("\n====================================================================")
 
     print(f"\
-\nEscolha as opções de Produtos auxiliares de lavagem:\
-\n1 - Desengorduranes têxteis\
-\n2 - Reforçadores de detergência\
-\n3 - Produtos para remoção de manchas difíceis\
-\n4 - Sair\
-\n====================================================================")
+    \nEscolha as opções de Produtos auxiliares de lavagem:\
+    \n1 - Desengorduranes têxteis\
+    \n2 - Reforçadores de detergência\
+    \n3 - Produtos para remoção de manchas difíceis\
+    \n4 - Sair\
+    \n====================================================================")
 
     opcao_produto_auxiliar = int(input("digite a sua opção: "))
 
@@ -205,25 +201,24 @@ def preferencia_produtos():
         print("Saindo...")
     return tipo_sabao, amaciante, produto_auxiliar
 
-
 def fragrancia():
     print("\n====================================================================")
     fragrancia = "Sem fragrância"
 
     print(f"\
-\nEscolha as opções de fragrancia:\
-\n1 - Algodão\
-\n2 - Lavanda\
-\n3 - Cítrico\
-\n4 - Jasmin\
-\n5 - Rosas\
-\n6 - Eucalipto\
-\n7 - Baunilha\
-\n8 - Brisa do mar\
-\n9 - Musk\
-\n10 - Talco\
-\n11 - Sem fragrância\
-\n====================================================================")
+    \nEscolha as opções de fragrancia:\
+    \n1 - Algodão\
+    \n2 - Lavanda\
+    \n3 - Cítrico\
+    \n4 - Jasmin\
+    \n5 - Rosas\
+    \n6 - Eucalipto\
+    \n7 - Baunilha\
+    \n8 - Brisa do mar\
+    \n9 - Musk\
+    \n10 - Talco\
+    \n11 - Sem fragrância\
+    \n====================================================================")
 
     opcao_fragrancia = int(input("digite a sua fragrância: "))
 
@@ -261,17 +256,16 @@ def fragrancia():
         print("Opção selecionada: Sem fragrância")
     return fragrancia
 
-
 def funcionario():
 
     print("Funcionário responsável pelo pedido: não definido")
 
 def atendimento():
     print("\n====================================================================\
-\nEscolha as opções de atendimento:\
-\n1 - Coleta (o funcionário irá até o endereço do cliente para coletar as roupas)\
-\n2 - Entrega (o cliente irá até a lavanderia para entregar as roupas)\
-\n====================================================================")
+    \nEscolha as opções de atendimento:\
+    \n1 - Coleta (o funcionário irá até o endereço do cliente para coletar as roupas)\
+    \n2 - Entrega (o cliente irá até a lavanderia para entregar as roupas)\
+    \n====================================================================")
     escolha = int(input("Digite a sua opção: "))
     if escolha == 1:
         print("Opção selecionada: Coleta")
@@ -281,17 +275,13 @@ def atendimento():
         atendimento = "entrega"
     return atendimento
 
-
-
-
-
 def urgencia():
     print("\n====================================================================")
     print(f"\
-\nEscolha as opções de urgência:\
-\n1 - Normal (prazo padrão)\
-\n2 - Urgente (prioridade)\
-\n====================================================================")
+    \nEscolha as opções de urgência:\
+    \n1 - Normal (prazo padrão)\
+    \n2 - Urgente (prioridade)\
+    \n====================================================================")
 
     opcao_urgencia = int(input("digite uma opção: "))
     if opcao_urgencia == 1:
@@ -307,7 +297,6 @@ def urgencia():
         taxa = 1.0
         urgencia = "Normal (prazo padrão)"
     return taxa, urgencia  
-
 
 def total(servico, opcao_roupa, quantidade, taxa):
     precos = {
@@ -348,19 +337,19 @@ def observacao():
     observacao = input("Digite alguma observação sobre o pedido (opcional): ")
     return observacao
 
-
-cliente = cliente_menu()
-print(cliente)
-servico_escolhido = servico()
-roupa, quantidade, opcao_roupa = roupa_e_quantidade()
-intensidade = intensidade()
-selecao_sabao, amaciante, produto_auxiliar = preferencia_produtos()
-preferencias_produtos = f"{selecao_sabao}, {amaciante}, {produto_auxiliar}"
-fragrancia_escolhida = fragrancia()
-atendimento_escolhido = atendimento()
-taxa_urgencia, descricao_urgencia = urgencia()
-total_pedido, roupa = total(servico_escolhido, opcao_roupa, quantidade, taxa_urgencia)
-observacao = observacao()
+def executar():
+    cliente = cliente_menu()
+    print(cliente)
+    servico_escolhido = servico()
+    roupa, quantidade, opcao_roupa = roupa_e_quantidade()
+    intensidade = intensidade()
+    selecao_sabao, amaciante, produto_auxiliar = preferencia_produtos()
+    preferencias_produtos = f"{selecao_sabao}, {amaciante}, {produto_auxiliar}"
+    fragrancia_escolhida = fragrancia()
+    atendimento_escolhido = atendimento()
+    taxa_urgencia, descricao_urgencia = urgencia()
+    total_pedido, roupa = total(servico_escolhido, opcao_roupa, quantidade, taxa_urgencia)
+    observacao = observacao()
 
 
 def pedidos_realizados():
@@ -400,4 +389,3 @@ def pedidos_realizados():
     conexao.commit()
     conexao.close()
 
-pedidos_realizados()

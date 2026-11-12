@@ -1,4 +1,5 @@
 import sqlite3
+from functools import wraps
 from login import login_cliente
 from cadastros import cadastrar_cliente
 
@@ -92,8 +93,6 @@ def roupa_e_quantidade():
     return roupa, quantidade, opcao_roupa
 
 def intensidade():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
     print(f"\
     \n====================================================================\
     \nEscolha a intensidade da lavagem:\
@@ -114,9 +113,6 @@ def intensidade():
     return intensidade
 
 def preferencia_produtos():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
-
     tipo_sabao = "Não informado"
     amaciante = "Não informado"
     produto_auxiliar = "Não informado"
@@ -177,7 +173,6 @@ def preferencia_produtos():
     else:
         print("Saindo...")
     print("\n====================================================================")
-
     print(f"\
     \nEscolha as opções de Produtos auxiliares de lavagem:\
     \n1 - Desengorduranes têxteis\
@@ -255,10 +250,6 @@ def fragrancia():
     else:
         print("Opção selecionada: Sem fragrância")
     return fragrancia
-
-def funcionario():
-
-    print("Funcionário responsável pelo pedido: não definido")
 
 def atendimento():
     print("\n====================================================================\
@@ -342,50 +333,90 @@ def executar():
     print(cliente)
     servico_escolhido = servico()
     roupa, quantidade, opcao_roupa = roupa_e_quantidade()
-    intensidade = intensidade()
+    intensidade_escolhida = intensidade()
     selecao_sabao, amaciante, produto_auxiliar = preferencia_produtos()
     preferencias_produtos = f"{selecao_sabao}, {amaciante}, {produto_auxiliar}"
     fragrancia_escolhida = fragrancia()
     atendimento_escolhido = atendimento()
     taxa_urgencia, descricao_urgencia = urgencia()
     total_pedido, roupa = total(servico_escolhido, opcao_roupa, quantidade, taxa_urgencia)
-    observacao = observacao()
+    observacao_pedido = observacao()
+    return cliente, servico_escolhido, roupa, quantidade, intensidade_escolhida, preferencias_produtos, fragrancia_escolhida, atendimento_escolhido, descricao_urgencia, total_pedido, observacao_pedido
+    
 
 
-def pedidos_realizados():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
-    cursor.execute("PRAGMA foreign_keys = ON")
+def pedidos_realizados(dados_pedido):
+    (
+        cliente,
+        servico_escolhido,
+        roupa,
+        quantidade,
+        intensidade_escolhida,
+        preferencias_produtos,
+        fragrancia_escolhida,
+        atendimento_escolhido,
+        descricao_urgencia,
+        total_pedido,
+        observacao_pedido,
+    ) = dados_pedido
 
-    cursor.execute('''
-                INSERT INTO pedidos(
-                id_cliente,
-                servico,
-                roupa,
-                quantidade,
-                intensidade,
-                preferencia_produtos,
-                fragrancia,
-                atendimento,
-                urgencia,
-                total,
-                observacao
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
+    conexao = None
+    try:
+        conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+        cursor = conexao.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON")
+
+        cursor.execute(
+            '''
+            INSERT INTO pedidos (
+                id_cliente, servico, roupa, quantidade, intensidade,
+                preferencia_produtos, fragrancia, atendimento, urgencia,
+                total, observacao
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''',
+            (
                 cliente[0],
                 servico_escolhido,
                 roupa,
                 quantidade,
-                intensidade,
+                intensidade_escolhida,
                 preferencias_produtos,
                 fragrancia_escolhida,
                 atendimento_escolhido,
                 descricao_urgencia,
                 total_pedido,
-                observacao
-            ))
+                observacao_pedido,
+            ),
+        )
 
-    conexao.commit()
-    conexao.close()
+        conexao.commit()
+    except sqlite3.Error as erro:
+        print(f"Não foi possível salvar o pedido: {erro}")
+        raise
+    finally:
+        if conexao is not None:
+            conexao.close()
+
+
+def reiniciar_se_entrada_invalida(funcao):
+    @wraps(funcao)
+    def executar_com_retentativa(*args, **kwargs):
+        while True:
+            try:
+                return funcao(*args, **kwargs)
+            except ValueError:
+                print("Entrada inválida. A função será reiniciada.")
+
+    return executar_com_retentativa
+
+
+cliente_menu = reiniciar_se_entrada_invalida(cliente_menu)
+servico = reiniciar_se_entrada_invalida(servico)
+roupa_e_quantidade = reiniciar_se_entrada_invalida(roupa_e_quantidade)
+intensidade = reiniciar_se_entrada_invalida(intensidade)
+preferencia_produtos = reiniciar_se_entrada_invalida(preferencia_produtos)
+fragrancia = reiniciar_se_entrada_invalida(fragrancia)
+atendimento = reiniciar_se_entrada_invalida(atendimento)
+urgencia = reiniciar_se_entrada_invalida(urgencia)
 

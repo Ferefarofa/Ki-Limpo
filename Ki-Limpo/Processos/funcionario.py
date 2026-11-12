@@ -1,3 +1,4 @@
+
 import sqlite3
 
 def visualizar_pedidos():
@@ -5,7 +6,7 @@ def visualizar_pedidos():
     cursor = conexao.cursor()
 
     cursor.execute("""
-        SELECT id_cliente, servico, roupa, quantidade, intensidade,
+        SELECT id, id_cliente, servico, roupa, quantidade, intensidade,
         preferencia_produtos, fragrancia, atendimento, urgencia,
         total, observacao
         FROM pedidos
@@ -14,22 +15,22 @@ def visualizar_pedidos():
     pedidos = cursor.fetchall()
 
     if not pedidos:
-    print("\nNenhum pedido encontrado.")
         print("\nNenhum pedido encontrado.")
     else:
         for pedido in pedidos:
             print("\n========== PEDIDO ==========")
-            print(f"ID do Cliente: {pedido[0]}")
-            print(f"Serviço: {pedido[1]}")
-            print(f"Roupa: {pedido[2]}")
-            print(f"Quantidade: {pedido[3]}")
-            print(f"Intensidade: {pedido[4]}")
-            print(f"Produtos: {pedido[5]}")
-            print(f"Fragrância: {pedido[6]}")
-            print(f"Atendimento: {pedido[7]}")
-            print(f"Urgência: {pedido[8]}")
-            print(f"Total: R$ {pedido[9]:.2f}")
-            print(f"Observação: {pedido[10]}")
+            print(f"ID do Pedido: {pedido[0]}")
+            print(f"ID do Cliente: {pedido[1]}")
+            print(f"Serviço: {pedido[2]}")
+            print(f"Roupa: {pedido[3]}")
+            print(f"Quantidade: {pedido[4]}")
+            print(f"Intensidade: {pedido[5]}")
+            print(f"Produtos: {pedido[6]}")
+            print(f"Fragrância: {pedido[7]}")
+            print(f"Atendimento: {pedido[8]}")
+            print(f"Urgência: {pedido[9]}")
+            print(f"Total: R$ {pedido[10]}")
+            print(f"Observação: {pedido[11]}")
             print("============================")
 
     conexao.close()
@@ -37,14 +38,14 @@ def visualizar_pedidos():
 def menu_funcionario():
     while True:
         print("\
-        ====================================================================\
-              ÁREA DO FUNCIONÁRIO\
-        ====================================================================\
-        1 - Visualizar pedidos\
-        2 - Aceitar pedido\
-        3 - Recusar pedido\
-        4 - Sair\
-        ====================================================================\
+        \n====================================================================\
+              \nÁREA DO FUNCIONÁRIO\
+        \n===================================================================\
+        \n1 - Visualizar pedidos\
+        \n2 - Aceitar pedido\
+        \n3 - Recusar pedido\
+        \n4 - Sair\
+        \n====================================================================\
         ")
 
         opcao = input("Escolha uma opção: ")
@@ -69,20 +70,24 @@ def aceitar_pedido():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
-    id_cliente = input("Digite o ID do cliente para aceitar o pedido: ")
+    id_cliente = input("Digite o ID do pedido para aceitar: ")
 
     cursor.execute("SELECT * FROM pedidos WHERE id_cliente = ?", (id_cliente,))
     pedido = cursor.fetchone()
 
     cursor.execute("UPDATE pedidos SET status = 'aceito' WHERE id_cliente = ?", (id_cliente,))
 
+    print(f"Pedido do cliente {id_cliente} aceito com sucesso.")
+
+    conexao.commit()
     conexao.close()
+
 
 def recusar_pedido():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
 
-    id_cliente = input("Digite o ID do cliente para recusar o pedido: ")
+    id_cliente = input("Digite o ID do pedido para recusar: ")
 
     cursor.execute("SELECT * FROM pedidos WHERE id_cliente = ?", (id_cliente,))
     pedido = cursor.fetchone()
@@ -96,7 +101,7 @@ def recusar_pedido():
         print(f"Pedido do cliente {id_cliente} recusado com sucesso.")
 
     else:
-    print(f"Pedido do cliente {id_cliente} não encontrado.")
+        print(f"Pedido do cliente {id_cliente} não encontrado.")
 
 
 
@@ -104,6 +109,3 @@ def recusar_pedido():
 
 
 menu_funcionario()
-
-
-

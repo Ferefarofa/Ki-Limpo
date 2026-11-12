@@ -70,7 +70,6 @@ def pedidos():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
-
     cursor.execute('''
                 CREATE TABLE IF NOT EXISTS pedidos(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -92,7 +91,9 @@ def pedidos():
                 FOREIGN KEY (id_cliente) REFERENCES clientes(id)
                 )
 
-    ''')#o atendimento é coleta ou entrega.
+        ''')
+    conexao.commit()
+    conexao.close()
 
 def pagamento_clube():
     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")

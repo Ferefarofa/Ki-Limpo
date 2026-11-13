@@ -1,5 +1,4 @@
 import sqlite3
-from functools import wraps
 from login import login_cliente
 from cadastros import cadastrar_cliente
 
@@ -360,7 +359,6 @@ def pedidos_realizados(dados_pedido):
         observacao_pedido,
     ) = dados_pedido
 
-    conexao = None
     try:
         conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
         cursor = conexao.cursor()
@@ -393,30 +391,20 @@ def pedidos_realizados(dados_pedido):
         conexao.commit()
     except sqlite3.Error as erro:
         print(f"Não foi possível salvar o pedido: {erro}")
-        raise
     finally:
-        if conexao is not None:
+        if conexao != None:
             conexao.close()
 
 
-def reiniciar_se_entrada_invalida(funcao):
-    @wraps(funcao)
-    def executar_com_retentativa(*args, **kwargs):
-        while True:
-            try:
-                return funcao(*args, **kwargs)
-            except ValueError:
-                print("Entrada inválida. A função será reiniciada.")
-
-    return executar_com_retentativa
 
 
-cliente_menu = reiniciar_se_entrada_invalida(cliente_menu)
-servico = reiniciar_se_entrada_invalida(servico)
-roupa_e_quantidade = reiniciar_se_entrada_invalida(roupa_e_quantidade)
-intensidade = reiniciar_se_entrada_invalida(intensidade)
-preferencia_produtos = reiniciar_se_entrada_invalida(preferencia_produtos)
-fragrancia = reiniciar_se_entrada_invalida(fragrancia)
-atendimento = reiniciar_se_entrada_invalida(atendimento)
-urgencia = reiniciar_se_entrada_invalida(urgencia)
+
+cliente_menu = cliente_menu
+servico = servico
+roupa_e_quantidade = roupa_e_quantidade
+intensidade = intensidade
+preferencia_produtos = preferencia_produtos
+fragrancia = fragrancia
+atendimento = atendimento
+urgencia = urgencia
 

@@ -1,4 +1,3 @@
-
 import sqlite3
 
 def visualizar_pedidos():
@@ -8,7 +7,7 @@ def visualizar_pedidos():
     cursor.execute("""
         SELECT id, id_cliente, servico, roupa, quantidade, intensidade,
         preferencia_produtos, fragrancia, atendimento, urgencia,
-        total, observacao
+        total, observacao, status, horario, data
         FROM pedidos
     """)
 
@@ -31,6 +30,9 @@ def visualizar_pedidos():
             print(f"Urgência: {pedido[9]}")
             print(f"Total: R$ {pedido[10]}")
             print(f"Observação: {pedido[11]}")
+            print(f"Status: {pedido[12]}")
+            print(f"Horário: {pedido[13]}")
+            print(f"Data: {pedido[14]}")
             print("============================")
 
     conexao.close()

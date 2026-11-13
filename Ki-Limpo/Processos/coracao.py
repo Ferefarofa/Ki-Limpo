@@ -53,7 +53,7 @@ def inicio():
         print(f"Erro no banco de dados: {erro}")
     finally:
         print("Programa finalizado.")
-        conexao.close()
+        
 
 
 

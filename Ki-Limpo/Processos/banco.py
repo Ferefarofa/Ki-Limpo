@@ -153,4 +153,23 @@ def tabela_pagamento():
             )
         ''')
 
+
+
+def pagamentos():
+    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
+    cursor = conexao.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+
+    cursor.execute('''
+            CREATE TABLE IF NOT EXISTS pagamentos(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_cliente INTEGER NOT NULL,
+            id_pedido TEXT NOT NULL,
+            forma_pagamento TEXT NOT NULL,
+            data_pagamento TEXT NOT NULL,
+            FOREIGN KEY (id_cliente) REFERENCES clientes(id)
+        )
+    ''')
+    conexao.commit()
+    conexao.close()
  

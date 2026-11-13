@@ -48,22 +48,6 @@ def banco_funcionario():
 
 
 
-def clube():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
-    cursor.execute("PRAGMA foreign_keys = ON")
-
-    cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS clube(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    cpf_cliente TEXT NOT NULL,
-                    id_cliente INTEGER NOT NULL,
-                    FOREIGN KEY (id_cliente) REFERENCES clientes(id)  
-                    )
-    ''')
-    conexao.commit()
-    conexao.close()
-
 
 
 def pedidos():
@@ -80,12 +64,12 @@ def pedidos():
                 intensidade TEXT,
                 preferencia_produtos TEXT,
                 fragrancia TEXT NOT NULL,
-                funcionario TEXT,
+                funcionario TEXT DEFAULT 'Não definido',
                 atendimento TEXT NOT NULL,
                 urgencia TEXT NOT NULL,
                 total REAL NOT NULL,
                 observacao TEXT,
-                status TEXT DEFAULT 'penendente',    
+                status TEXT DEFAULT 'pendente',    
                 horario TEXT DEFAULT 'agora',
                 data TEXT DEFAULT 'hoje',
                 FOREIGN KEY (id_cliente) REFERENCES clientes(id)
@@ -95,63 +79,6 @@ def pedidos():
     conexao.commit()
     conexao.close()
 
-def pagamento_clube():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
-    cursor.execute("PRAGMA foreign_keys = ON")
-
-    cursor.execute('''
-            CREATE TABLE IF NOT EXISTS planos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            desconto REAL NOT NULL,
-        )
-    ''')
-    conexao.commit()
-    conexao.close()
-
-def pagamento_gerais():
-    conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
-    cursor = conexao.cursor()
-    cursor.execute("PRAGMA foreign_keys = ON")
-
-    cursor.execute('''
-            CREATE TABLE IF NOT EXISTS pagamentos(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_cliente INTEGER NOT NULL,
-            id_pedido TEXT NOT NULL,
-            forma_pagamento TEXT NOT NULL,
-            data_pagamento TEXT NOT NULL
-            FOREIGN KEY (id_cliente) REFERENCES clientes(id)
-        )
-    ''')
-    conexao.commit()
-    conexao.close()
-
-
-
-def tabela_pagamento():
-    with conectar() as conexao:
-        conexao.execute('''
-            CREATE TABLE IF NOT EXISTS planos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                preco REAL NOT NULL,
-                desconto REAL NOT NULL
-            )
-        ''')
-
-        conexao.execute('''
-            CREATE TABLE IF NOT EXISTS assinaturas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_cliente INTEGER NOT NULL,
-                id_plano INTEGER NOT NULL,
-                forma_pagamento TEXT NOT NULL,
-                status TEXT NOT NULL DEFAULT 'pendente',
-                data_criacao TEXT NOT NULL,
-                FOREIGN KEY (id_plano) REFERENCES planos(id)
-            )
-        ''')
 
 
 

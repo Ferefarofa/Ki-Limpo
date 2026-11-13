@@ -4,10 +4,12 @@ from login import login_cliente, login_funcionario
 from cadastros import cadastrar_cliente, cadastrar_funcionario
 from banco import banco_cliente, banco_funcionario,pedidos
 from cliente import cliente_menu, servico, roupa_e_quantidade, intensidade, preferencia_produtos, fragrancia, atendimento, urgencia, total, observacao, executar, pedidos_realizados
+from funcionario import funcionario_menu, menu_funcionario, visualizar_pedidos, visualizar_pedidos_andamento, visualizar_pedidos_finalizados, aceitar_pedido, recusar_pedido, finalizar_pedido
+
+pedidos()
 
 def inicio():
     try:
-        pedidos()
         print(f"\
 \n====================================================================\
 \nBEM VINDO AO KI-LIMPO SYSTEM\
@@ -19,31 +21,14 @@ def inicio():
 
         if tipo == 1:
             dados_pedido = executar()
-            pedidos_realizados(dados_pedido)
+            if dados_pedido == None:
+                print("Nenhum pedido realizado.")
+            else:
+                pedidos_realizados(dados_pedido)
 
         elif tipo == 2:
-            print("\
-\n====================================================================\
-\nOLÁ FUNCIONÁRIO, SELECIONA UMA OPÇÃO: \
-\n1 - FAZER LOGIN\
-\n2 - CADASTRAR\
-\n====================================================================")
-            opcao = int(input("Escolha: "))
-            if opcao == 1:
-                funcionario = login_funcionario()
-            elif opcao == 2:
-                cadastrar_funcionario()
-                print("\
-\n====================================================================\
-\nVocê foi encaminhado para o login...")
-                funcionario = login_funcionario()
-            else:
-                print("Opção inválida.")
-                return
-            print(f"\
-\n====================================================================\
-\nBEM VINDO(A) {funcionario[1]}\
-\n====================================================================")
+            funcionario = funcionario_menu()
+            menu_funcionario(funcionario)
         else:
             print("Opção inválida.")
     except ValueError:
@@ -53,8 +38,5 @@ def inicio():
         print(f"Erro no banco de dados: {erro}")
     finally:
         print("Programa finalizado.")
-        
-
-
 
 inicio()

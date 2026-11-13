@@ -21,6 +21,14 @@ def cliente_menu():
     \n====================================================================\
     \nVocê foi encaminhado para o login...")
         cliente = login_cliente()
+    else:
+        print("Opção inválida.")
+
+    if cliente == None:
+        print("E-mail ou senha inválidos. Tente novamente.")
+        cliente_menu()
+
+
     print(f"\
     \n====================================================================\
     \nBEM VINDO(A) {cliente[1]}\
@@ -329,6 +337,8 @@ def observacao():
 
 def executar():
     cliente = cliente_menu()
+    if cliente is None:
+        return None
     print(cliente)
     servico_escolhido = servico()
     roupa, quantidade, opcao_roupa = roupa_e_quantidade()
@@ -394,17 +404,3 @@ def pedidos_realizados(dados_pedido):
     finally:
         if conexao != None:
             conexao.close()
-
-
-
-
-
-cliente_menu = cliente_menu
-servico = servico
-roupa_e_quantidade = roupa_e_quantidade
-intensidade = intensidade
-preferencia_produtos = preferencia_produtos
-fragrancia = fragrancia
-atendimento = atendimento
-urgencia = urgencia
-

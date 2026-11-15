@@ -3,7 +3,7 @@ import sqlite3
 from login import login_cliente, login_funcionario
 from cadastros import cadastrar_cliente, cadastrar_funcionario
 from banco import banco_cliente, banco_funcionario,pedidos
-from cliente import cliente_menu, servico, roupa_e_quantidade, intensidade, preferencia_produtos, fragrancia, atendimento, urgencia, total, observacao, executar, pedidos_realizados
+from cliente import cliente_menu, servico, roupa_e_quantidade, intensidade, preferencia_produtos, fragrancia, atendimento, urgencia, total, observacao, executar_cliente
 from funcionario import funcionario_menu, menu_funcionario, visualizar_pedidos, visualizar_pedidos_andamento, visualizar_pedidos_finalizados, aceitar_pedido, recusar_pedido, finalizar_pedido
 
 pedidos()
@@ -20,11 +20,7 @@ def inicio():
         tipo = int(input("Escolha: "))
 
         if tipo == 1:
-            dados_pedido = executar()
-            if dados_pedido == None:
-                print("Nenhum pedido realizado.")
-            else:
-                pedidos_realizados(dados_pedido)
+            executar_cliente()
 
         elif tipo == 2:
             funcionario = funcionario_menu()

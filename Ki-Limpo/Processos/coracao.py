@@ -27,6 +27,7 @@ def inicio():
             menu_funcionario(funcionario)
         else:
             print("Opção inválida.")
+            return inicio()
     except ValueError:
         print("Entrada inválida. Digite o número de uma opção.")
         inicio()

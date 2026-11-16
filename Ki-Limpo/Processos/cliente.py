@@ -36,7 +36,8 @@ def cliente_menu():
         return cliente_menu()
 
 
-    if cliente:print(f"\
+    if cliente:
+        print(f"\
     \n====================================================================\
     \nBEM VINDO(A) {cliente[1]}\
     \n====================================================================")
@@ -121,6 +122,7 @@ def roupa_e_quantidade():
     finally:
         print()
 
+
 def intensidade():
     print(f"\
     \n====================================================================\
@@ -145,8 +147,8 @@ def intensidade():
         return intensidade()
     finally:
         print()
-    
 
+    
 def preferencia_produtos():
     tipo_sabao = "Não informado"
     amaciante = "Não informado"
@@ -306,6 +308,7 @@ def fragrancia():
     finally:
         print()
 
+
 def atendimento():
     print("\n====================================================================\
     \nEscolha as opções de atendimento:\
@@ -328,6 +331,7 @@ def atendimento():
         return atendimento()
     finally:
         print()
+
 
 def urgencia():
     print("\n====================================================================")
@@ -359,6 +363,7 @@ def urgencia():
         return urgencia()
     finally:
         print()
+
 
 def total(servico, opcao_roupa, quantidade, taxa):
     precos = {
@@ -399,6 +404,7 @@ def total(servico, opcao_roupa, quantidade, taxa):
     finally:
         print()
 
+
 def observacao():
     try:
         observacao = input("Digite alguma observação sobre o pedido (opcional): ")
@@ -408,6 +414,7 @@ def observacao():
         return observacao()
     finally:
         print()
+
 
 def executar_cliente():
     cliente = None
@@ -544,11 +551,12 @@ def executar_cliente():
             elif opcao == 4:
                 print("Saindo...")
                 return None
+            else:
+                print("Opção inválida")
         except ValueError:
             print("Entrada inválida. Digite o número de uma opção.")
             continue
     
-
 
 def pedidos_realizados(dados_pedido):
     (

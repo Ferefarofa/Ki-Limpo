@@ -138,7 +138,7 @@ def aceitar_pedido(funcionario):
         conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
         cursor = conexao.cursor()
 
-        id_pedido = input("Digite o ID do pedido para aceitar: ")
+        id_pedido = int(input("Digite o ID do pedido para aceitar: "))
 
         cursor.execute("SELECT * FROM pedidos WHERE id = ?", (id_pedido,))
         pedido = cursor.fetchone()
@@ -153,9 +153,11 @@ def aceitar_pedido(funcionario):
         if cursor.rowcount > 0:
             print(f"Pedido {id_pedido} aceito com sucesso.")
         else:
-            print("Esse pedido não existe.")
+            print(f"Pedido {id_pedido} não encontrado.")
     except sqlite3.Error as erro:
         print(f"Erro no banco de dados: {erro}")
+    except ValueError:
+        print("Entrada inválida. Digite o número de uma opção.")
     finally:
         if conexao is not None:
             conexao.close()
@@ -166,19 +168,20 @@ def finalizar_pedido():
         conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
         cursor = conexao.cursor()
 
-        id_pedido = input("Digite o ID do pedido para finalizar: ")
+        id_pedido = int(input("Digite o ID do pedido para finalizar: "))
 
         cursor.execute("SELECT * FROM pedidos WHERE id = ?", (id_pedido,))
-        pedido = cursor.fetchone()
 
-        if pedido:
-            cursor.execute("UPDATE pedidos SET status = 'finalizado' WHERE id = ?", (id_pedido,))
-            conexao.commit()
+        cursor.execute("UPDATE pedidos SET status = 'finalizado' WHERE id = ?", (id_pedido,))
+        conexao.commit()
+        if cursor.rowcount > 0:
             print(f"Pedido {id_pedido} finalizado com sucesso.")
         else:
             print(f"Pedido {id_pedido} não encontrado.")
     except sqlite3.Error as erro:
         print(f"Erro no banco de dados: {erro}")
+    except ValueError:
+        print("Entrada inválida. Digite o número de uma opção.")
     finally:
         if conexao is not None:
             conexao.close()
@@ -189,7 +192,7 @@ def recusar_pedido():
         conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
         cursor = conexao.cursor()
 
-        id_pedido = input("Digite o ID do pedido para recusar: ")
+        id_pedido = int(input("Digite o ID do pedido para recusar: "))
 
         cursor.execute("SELECT * FROM pedidos WHERE id = ?", (id_pedido,))
         pedido = cursor.fetchone()
@@ -202,11 +205,14 @@ def recusar_pedido():
             )
             conexao.commit()
 
+        if cursor.rowcount > 0:
             print(f"Pedido {id_pedido} recusado com sucesso.")
         else:
             print(f"Pedido {id_pedido} não encontrado.")
     except sqlite3.Error as erro:
         print(f"Erro no banco de dados: {erro}")
+    except ValueError:
+        print("Entrada inválida. Digite o número de uma opção.")
     finally:
         if conexao is not None:
             conexao.close()

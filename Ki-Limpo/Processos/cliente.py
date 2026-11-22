@@ -1,7 +1,7 @@
 import sqlite3
 from login import login_cliente
 from cadastros import cadastrar_cliente
-
+from pagamento import forma_pagamento, pagamento_realizado
 
 
 def cliente_menu():
@@ -35,8 +35,8 @@ def cliente_menu():
         print("E-mail ou senha inválidos. Tente novamente.")
         return cliente_menu()
 
-
-    if cliente:print(f"\
+    if cliente:
+        print(f"\
     \n====================================================================\
     \nBEM VINDO(A) {cliente[1]}\
     \n====================================================================")
@@ -96,7 +96,7 @@ def roupa_e_quantidade():
             3: "Camisas",
             4: "Camisetas",
             5: "Moletom",
-            6: "Peças de baixo"
+            6: "Peças de baixo",
         }
 
         # Verificar se a opção é válida
@@ -121,6 +121,7 @@ def roupa_e_quantidade():
     finally:
         print()
 
+
 def intensidade():
     print(f"\
     \n====================================================================\
@@ -134,9 +135,9 @@ def intensidade():
         if opcao == 1:
             return "Sujeira Simples"
         elif opcao == 2:
-            return  "Bem Sujo"
+            return "Bem Sujo"
         elif opcao == 3:
-            return  "Extremamente Sujo"
+            return "Extremamente Sujo"
         else:
             print("Opção inválida.")
             return intensidade()
@@ -145,7 +146,7 @@ def intensidade():
         return intensidade()
     finally:
         print()
-    
+
 
 def preferencia_produtos():
     tipo_sabao = "Não informado"
@@ -194,7 +195,6 @@ def preferencia_produtos():
         \n3 - Amaciante hipoalergênico ou sem perfume\
         \n====================================================================")
 
-  
         opcao_amaciante = int(input("digite a sua opção: "))
 
         if opcao_amaciante == 1:
@@ -296,7 +296,7 @@ def fragrancia():
             return "Talco"
         elif opcao_fragrancia == 11:
             print("Opção selecionada: Sem fragrância")
-            return("Sem fragrância")
+            return "Sem fragrância"
         else:
             print("Opção inválida.")
             return fragrancia()
@@ -305,6 +305,7 @@ def fragrancia():
         return fragrancia()
     finally:
         print()
+
 
 def atendimento():
     print("\n====================================================================\
@@ -328,6 +329,7 @@ def atendimento():
         return atendimento()
     finally:
         print()
+
 
 def urgencia():
     print("\n====================================================================")
@@ -359,6 +361,7 @@ def urgencia():
         return urgencia()
     finally:
         print()
+
 
 def total(servico, opcao_roupa, quantidade, taxa):
     precos = {
@@ -399,6 +402,7 @@ def total(servico, opcao_roupa, quantidade, taxa):
     finally:
         print()
 
+
 def observacao():
     try:
         observacao = input("Digite alguma observação sobre o pedido (opcional): ")
@@ -408,6 +412,7 @@ def observacao():
         return observacao()
     finally:
         print()
+
 
 def executar_cliente():
     cliente = None
@@ -439,7 +444,9 @@ def executar_cliente():
                 selecao_sabao, amaciante, produto_auxiliar = preferencia_produtos()
                 if selecao_sabao is None:
                     return None
-                preferencias_produtos = f"{selecao_sabao}, {amaciante}, {produto_auxiliar}"
+                preferencias_produtos = (
+                    f"{selecao_sabao}, {amaciante}, {produto_auxiliar}"
+                )
                 fragrancia_escolhida = fragrancia()
                 if fragrancia_escolhida is None:
                     return None
@@ -449,7 +456,9 @@ def executar_cliente():
                 taxa_urgencia, descricao_urgencia = urgencia()
                 if taxa_urgencia is None:
                     return None
-                total_pedido, roupa = total(servico_escolhido, opcao_roupa, quantidade, taxa_urgencia)
+                total_pedido, roupa = total(
+                    servico_escolhido, opcao_roupa, quantidade, taxa_urgencia
+                )
                 if total_pedido is None:
                     return None
                 observacao_pedido = observacao()
@@ -473,7 +482,8 @@ def executar_cliente():
                     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
                     cursor = conexao.cursor()
                     cursor.execute(
-                        "SELECT * FROM pedidos WHERE id_cliente = ? AND status = ?", (cliente[0], "pendente" or "aceito")
+                        "SELECT * FROM pedidos WHERE id_cliente = ? AND status = ?",
+                        (cliente[0], "pendente" or "aceito"),
                     )
                     pedidos = cursor.fetchall()
 
@@ -497,6 +507,18 @@ def executar_cliente():
                             print(f"Status: {pedido[13]}")
                             print(f"Horário: {pedido[14]}")
                             print(f"Data: {pedido[15]}")
+                            cursor.execute(
+                                "SELECT * FROM pagamentos WHERE id_pedido = ?",
+                                (pedido[0],),
+                            )
+
+                            pagamentos_pedido = cursor.fetchall()
+
+                            if pagamentos_pedido:
+                                for pagamento in pagamentos_pedido:
+                                    print(f"Pagamento: Pago - {pagamento[3]}")
+                            else:
+                                print("Pagamento: Pendente")
                             print("============================")
 
                 except sqlite3.Error as erro:
@@ -510,7 +532,8 @@ def executar_cliente():
                     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
                     cursor = conexao.cursor()
                     cursor.execute(
-                        "SELECT * FROM pedidos WHERE id_cliente = ? AND status = ?", (cliente[0], "finalizado")
+                        "SELECT * FROM pedidos WHERE id_cliente = ? AND status = ?",
+                        (cliente[0], "finalizado"),
                     )
                     pedidos = cursor.fetchall()
 
@@ -547,7 +570,6 @@ def executar_cliente():
         except ValueError:
             print("Entrada inválida. Digite o número de uma opção.")
             continue
-    
 
 
 def pedidos_realizados(dados_pedido):
@@ -572,14 +594,14 @@ def pedidos_realizados(dados_pedido):
         cursor.execute("PRAGMA foreign_keys = ON")
 
         cursor.execute(
-            '''
+            """
             INSERT INTO pedidos (
                 id_cliente, servico, roupa, quantidade, intensidade,
                 preferencia_produtos, fragrancia, atendimento, urgencia,
                 total, observacao
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''',
+            """,
             (
                 cliente[0],
                 servico_escolhido,
@@ -596,6 +618,15 @@ def pedidos_realizados(dados_pedido):
         )
 
         conexao.commit()
+        cursor.execute("SELECT * FROM pedidos WHERE id_cliente = ?", (cliente[0],))
+
+        pedidos = cursor.fetchall()
+
+        for pedido in pedidos:
+            id_pedido = pedido[0]
+
+        pagamento_realizado(cliente[0], id_pedido, total_pedido, forma_pagamento())
+
     except sqlite3.Error as erro:
         print(f"Não foi possível salvar o pedido: {erro}")
     finally:

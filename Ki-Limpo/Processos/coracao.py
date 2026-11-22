@@ -27,12 +27,13 @@ def inicio():
             menu_funcionario(funcionario)
         else:
             print("Opção inválida.")
+            return inicio()
     except ValueError:
         print("Entrada inválida. Digite o número de uma opção.")
-        inicio()
+        return inicio()
     except sqlite3.Error as erro:
         print(f"Erro no banco de dados: {erro}")
     finally:
-        print("Programa finalizado.")
+        print()
 
 inicio()

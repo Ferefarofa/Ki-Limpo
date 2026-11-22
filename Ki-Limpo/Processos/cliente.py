@@ -567,6 +567,8 @@ def executar_cliente():
             elif opcao == 4:
                 print("Saindo...")
                 return None
+            else:
+                print("Opção inválida")
         except ValueError:
             print("Entrada inválida. Digite o número de uma opção.")
             continue

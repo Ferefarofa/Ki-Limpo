@@ -627,8 +627,7 @@ def pedidos_realizados(dados_pedido):
         for pedido in pedidos:
             id_pedido = pedido[0]
 
-        pagamento_realizado(cliente[0], id_pedido, total_pedido, forma_pagamento())
-
+        pagamento_realizado(cliente[0], id_pedido)
     except sqlite3.Error as erro:
         print(f"Não foi possível salvar o pedido: {erro}")
     finally:

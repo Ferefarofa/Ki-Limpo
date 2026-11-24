@@ -482,8 +482,8 @@ def executar_cliente():
                     conexao = sqlite3.connect("Ki-Limpo/dados_lavanderia.db")
                     cursor = conexao.cursor()
                     cursor.execute(
-                        "SELECT * FROM pedidos WHERE id_cliente = ? AND status = ?",
-                        (cliente[0], "pendente" or "aceito"),
+                        "SELECT * FROM pedidos WHERE id_cliente = ? AND status IN (?, ?)",
+                        (cliente[0], "pendente", "aceito"),
                     )
                     pedidos = cursor.fetchall()
 
@@ -558,7 +558,19 @@ def executar_cliente():
                             print(f"Horário: {pedido[14]}")
                             print(f"Data: {pedido[15]}")
                             print("============================")
+                            cursor.execute(
+                                "SELECT * FROM pagamentos WHERE id_pedido = ?",
+                                (pedido[0],),
+                            )
 
+                            pagamentos_pedido = cursor.fetchall()
+
+                            if pagamentos_pedido:
+                                for pagamento in pagamentos_pedido:
+                                    print(f"Pagamento: Pago - {pagamento[3]}")
+                            else:
+                                print("Pagamento: Pendente")
+                            print("============================")
                 except sqlite3.Error as erro:
                     print(f"Erro no banco de dados: {erro}")
                 finally:

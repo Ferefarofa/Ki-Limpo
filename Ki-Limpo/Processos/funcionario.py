@@ -82,6 +82,19 @@ def visualizar_pedidos():
                 print(f"Data: {pedido[15]}")
                 print(f"Funcionário: {pedido[8]}")
                 print("============================")
+                cursor.execute(
+                    "SELECT * FROM pagamentos WHERE id_pedido = ?",
+                    (pedido[0],),
+                )
+
+                pagamentos_pedido = cursor.fetchall()
+
+                if pagamentos_pedido:
+                    for pagamento in pagamentos_pedido:
+                        print(f"Pagamento: Pago - {pagamento[3]}")
+                else:
+                    print("Pagamento: Pendente")
+                print("============================")
     except sqlite3.Error as erro:
         print(f"Erro no banco de dados: {erro}")
     finally:
@@ -271,6 +284,19 @@ def visualizar_pedidos_andamento():
                 print(f"Data: {pedido[15]}")
                 print(f"Funcionário: {pedido[8]}")
                 print("=========================================")
+                cursor.execute(
+                    "SELECT * FROM pagamentos WHERE id_pedido = ?",
+                    (pedido[0],),
+                )
+
+                pagamentos_pedido = cursor.fetchall()
+
+                if pagamentos_pedido:
+                    for pagamento in pagamentos_pedido:
+                        print(f"Pagamento: Pago - {pagamento[3]}")
+                else:
+                    print("Pagamento: Pendente")
+                print("============================")
     except sqlite3.Error as erro:
         print(f"Erro no banco de dados: {erro}")
     finally:
